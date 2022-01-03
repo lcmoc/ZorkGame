@@ -9,7 +9,7 @@ public class CommandWords {
 
     public boolean isCommand(String commandWord) {
         return validCommands.stream()
-                .filter(c -> c.equals(commandWord))
+                .filter(command -> command.equals(commandWord))
                 .count()>0;
     }
 

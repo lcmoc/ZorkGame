@@ -37,4 +37,8 @@ public class Room {
             return exits.get(direction);
         }
 
+        public String setEvent(String eventDescription) {
+            return eventDescription;
+        }
+
 }

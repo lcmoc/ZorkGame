@@ -31,7 +31,6 @@ public class Game {
         currentRoom = outside; // start game outside
     }
 
-
     /**
      *  Main play routine.  Loops until end of play.
      */
