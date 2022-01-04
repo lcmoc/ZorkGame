@@ -1,16 +1,15 @@
 package ch.bbw.zorkgame;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Stack;
-
+import ch.bbw.zorkgame.CommandComponents.Command;
+import ch.bbw.zorkgame.CommandComponents.CommandExecutions;
 
 
 public class Game {
     private Parser parser;
     private Room currentRoom;
     private Room outside, lab, tavern, gblock, office;
+    private CommandExecutions commandExecutions;
+    private Prints prints;
 
     public Game() {
 
@@ -29,81 +28,21 @@ public class Game {
         office.setExits(null, null, null, gblock);
 
         currentRoom = outside; // start game outside
+        commandExecutions = new CommandExecutions();
+        prints = new Prints();
     }
 
-
-    /**
-     *  Main play routine.  Loops until end of play.
-     */
     public void play() {
-        printWelcome();
+        prints.printWelcome(currentRoom);
+        prints.printHelp(parser);
 
-        // Enter the main command loop.  Here we repeatedly read commands and
-        // execute them until the game is over.
         boolean finished = false;
         while (!finished) {
             Command command = parser.getCommand();
-            finished = processCommand(command);
+            finished = commandExecutions.isGameFinished(command, parser, currentRoom);
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Thank you for playing. Good bye.");
     }
 
-    private void printWelcome() {
-        System.out.println();
-        System.out.println("Welcome to Zork!");
-        System.out.println("Zork is a simple adventure game.");
-        System.out.println("Type 'help' if you need help.");
-        System.out.println();
-        System.out.println(currentRoom.longDescription());
-    }
 
-    private boolean processCommand(Command command) {
-        if (command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
-            return false;
-        }
-
-        String commandWord = command.getCommandWord();
-        if (commandWord.equals("help")) {
-            printHelp();
-
-        } else if (commandWord.equals("go")) {
-            goRoom(command);
-
-        } else if (commandWord.equals("quit")) {
-            if (command.hasSecondWord()) {
-                System.out.println("Quit what?");
-            } else {
-                return true; // signal that we want to quit
-            }
-        }
-        return false;
-    }
-
-    private void printHelp() {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at Monash Uni, Peninsula Campus.");
-        System.out.println();
-        System.out.println("Your command words are:");
-        System.out.println(parser.showCommands());
-    }
-
-    private void goRoom(Command command) {
-        if (!command.hasSecondWord()) {
-            System.out.println("Go where?");
-        } else {
-
-            String direction = command.getSecondWord();
-
-            // Try to leave current room.
-            Room nextRoom = currentRoom.nextRoom(direction);
-
-            if (nextRoom == null)
-                System.out.println("There is no door!");
-            else {
-                currentRoom = nextRoom;
-                System.out.println(currentRoom.longDescription());
-            }
-        }
-    }
 }

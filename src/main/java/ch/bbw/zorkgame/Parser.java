@@ -1,5 +1,8 @@
 package ch.bbw.zorkgame;
 
+import ch.bbw.zorkgame.CommandComponents.Command;
+import ch.bbw.zorkgame.CommandComponents.CommandWords;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
