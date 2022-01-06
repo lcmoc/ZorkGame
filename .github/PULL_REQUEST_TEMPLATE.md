@@ -3,7 +3,6 @@
 - [ ] Reviewed my code
 - [ ] PR Title is meaningful
 - [ ] Labels are updated
-- [ ] Tested on [all browsers]
 
 # 🐛 Testing Info
 
