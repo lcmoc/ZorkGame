@@ -3,6 +3,7 @@ package ch.bbw.zorkgame.CommandComponents;
 import ch.bbw.zorkgame.Parser;
 import ch.bbw.zorkgame.Prints;
 import ch.bbw.zorkgame.Room;
+import static ch.bbw.zorkgame.Constants.*;
 
 public class CommandExecutions {
     private boolean isGameFinished;
@@ -21,13 +22,13 @@ public class CommandExecutions {
 
         String commandWord = command.getCommandWord();
 
-        if (commandWord.equals("help")) {
+        if (commandWord.equals(COMMAND_HELP)) {
             prints.printHelp(parser);
 
-        } else if (commandWord.equals("go")) {
+        } else if (commandWord.equals(COMMAND_GO)) {
             goRoom(command, currentRoom);
 
-        } else if (commandWord.equals("quit")) {
+        } else if (commandWord.equals(COMMAND_QUIT)) {
             if (command.hasSecondWord()) {
                 System.out.println("Quit what?");
 
@@ -35,8 +36,8 @@ public class CommandExecutions {
                 return true; // signal that we want to quit
             }
 
-        } else if (commandWord.equals("back")) {
-
+        } else if (commandWord.equals(COMMAND_BACK)) {
+            goRoom(command, currentRoom);
             return false;
         }
         return false;
