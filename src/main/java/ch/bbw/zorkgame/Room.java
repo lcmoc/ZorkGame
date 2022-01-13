@@ -1,15 +1,18 @@
 package ch.bbw.zorkgame;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Room {
 
         private String description;
         private HashMap<String, Room> exits;
+        private ArrayList<Item> items;
 
         public Room(String description) {
             this.description = description;
             this.exits = new HashMap<>();
+            items = new ArrayList<Item>();
         }
 
         public void setExits(Room north, Room east, Room south, Room west) {
@@ -42,4 +45,13 @@ public class Room {
             return eventDescription;
         }
 
+        public void setItem(Item item) {
+            items.add(item);
+        }
+
+        public void showItems() {
+            for(Item item: items) {
+                System.out.println(item.getItemName());
+            };
+        }
 }
