@@ -34,7 +34,7 @@ public class Room {
         }
 
         public Room nextRoom(String direction) {
+            System.out.println(exits.get(direction));
             return exits.get(direction);
         }
-
 }

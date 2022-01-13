@@ -1,4 +1,4 @@
-package ch.bbw.zorkgame;
+package ch.bbw.zorkgame.CommandComponents;
 
 public class Command {
     private String commandWord;
