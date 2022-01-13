@@ -24,7 +24,7 @@ public class Room {
         }
 
         public String longDescription() {
-            StringBuilder stringBuilder = new StringBuilder("You are in " + description + ".\n");
+            StringBuilder stringBuilder = new StringBuilder(description + ".\n");
             stringBuilder.append(exitString());
             return stringBuilder.toString();
         }
@@ -37,4 +37,10 @@ public class Room {
             System.out.println(exits.get(direction));
             return exits.get(direction);
         }
+
+        @Override
+        public String toString() {
+            return "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––";
+        }
+
 }
