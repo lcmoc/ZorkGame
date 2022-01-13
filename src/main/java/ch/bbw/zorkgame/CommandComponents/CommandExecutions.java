@@ -66,31 +66,21 @@ public class CommandExecutions {
         }
     }
 
-
-
-
-
-
-
     public void goLastRoom(Room currentRoom) {
-        System.out.println(currentDirection);
         String back = lastRoom(currentDirection);
-        System.out.println(back);
-        // Room lastRoom = currentRoom.nextRoom(back);
-       // System.out.println(currentRoom);
-      //  currentRoom = lastRoom;
-      //  System.out.println(currentRoom);
-      //  System.out.println(currentRoom.shortDescription());
+        Room lastRoom = currentRoom.nextRoom(back);
+        currentRoom = lastRoom;
+        System.out.println(currentRoom.longDescription());
     }
 
     public String lastRoom(String currentDirection) {
-        if(currentDirection == "north") {
+        if(currentDirection.equals("north")) {
             return "south";
-        } else if(currentDirection == "south") {
+        } else if(currentDirection.equals("south")) {
             return "north";
-        } else if(currentDirection == "east") {
+        } else if(currentDirection.equals("east")) {
             return "west";
-        } else if(currentDirection == "west") {
+        } else if(currentDirection.equals("west")) {
             return "east";
         } else {
             System.out.println("there is no way back");

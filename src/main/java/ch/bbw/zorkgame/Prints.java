@@ -1,7 +1,6 @@
 package ch.bbw.zorkgame;
 
 public class Prints {
-    public Prints() {}
 
     public void printWelcome(Room currentRoom) {
         System.out.println();

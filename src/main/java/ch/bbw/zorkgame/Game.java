@@ -12,7 +12,6 @@ public class Game {
     private Prints prints;
 
     public Game() {
-
         parser = new Parser(System.in);
 
         outside = new Room("outside G block on Peninsula campus");
@@ -41,8 +40,7 @@ public class Game {
             Command command = parser.getCommand();
             finished = commandExecutions.isGameFinished(command, parser, currentRoom);
         }
+
         System.out.println("Thank you for playing. Good bye.");
     }
-
-
 }
