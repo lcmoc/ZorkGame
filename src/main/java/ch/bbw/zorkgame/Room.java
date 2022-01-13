@@ -37,4 +37,10 @@ public class Room {
             System.out.println(exits.get(direction));
             return exits.get(direction);
         }
+
+        @Override
+        public String toString() {
+            return "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––";
+        }
+
 }
