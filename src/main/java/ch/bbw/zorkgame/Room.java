@@ -6,10 +6,12 @@ public class Room {
 
         private String description;
         private HashMap<String, Room> exits;
+        private String name;
 
-        public Room(String description) {
+        public Room(String description, String name) {
             this.description = description;
             this.exits = new HashMap<>();
+            this.name = name;
         }
 
         public void setExits(Room north, Room east, Room south, Room west) {
@@ -20,7 +22,7 @@ public class Room {
         }
 
         public String shortDescription() {
-            return description;
+            return name;
         }
 
         public String longDescription() {
@@ -42,5 +44,6 @@ public class Room {
         public String toString() {
             return "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––";
         }
+
 
 }
