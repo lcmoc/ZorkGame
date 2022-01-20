@@ -49,8 +49,10 @@ public class Room {
         }
 
         public void showItems() {
+        int number = 0;
             for (Item item: items) {
-                System.out.println("Items:"+ item.getName());
+                number++;
+                System.out.println("Item "+ number + ": " + item.getName());
             };
         }
 

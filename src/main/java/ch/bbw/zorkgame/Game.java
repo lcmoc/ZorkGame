@@ -14,7 +14,7 @@ public class Game {
     private Room outside, bathroom, basement, kitchen, stairway, bedroom;
     private String currentDirection;
     private Prints prints;
-    private Item key, hammer, winebottle;
+    private Item key, hammer, winebottle, bed, wardrobe, wd2, collar;
 
     public Game() {
 
@@ -24,7 +24,7 @@ public class Game {
         bathroom = new Room("bathroom, a dark room with one small window. There is a wardrobe next to the bathtub. Do you want to open it? ");
         basement = new Room("You're in the basement. On the left side and on the right side is a door. The door on the right side is locked and you can't open it with your hands.");
         stairway = new Room("You can see the stairs and the dog of your kidnapper. It's a bulldog. He's happily sleeping on the carpet. Wait, he has a key on his collar");
-        kitchen = new Room("The kitchen and the living room are together. The old man is in the kitchen and preparing food for you.");
+        kitchen = new Room("You're in the kitchen. The old man is in the kitchen and preparing food for dinner. He is deaf so you don't have to worry of making noices.");
         bedroom = new Room("That's the room of this old, blind man. There is a huge bed and a wardrobe.");
 
         outside.setExits(kitchen, null, null, null);
@@ -38,9 +38,22 @@ public class Game {
         key = new Item("key", 1, 10);
         hammer = new Item("hammer", 2, 50);
         winebottle = new Item("winebottle", 1, 80);
+        bed = new Item("bed",0,1000);
+        wardrobe = new Item("wardrobe",0,1500);
+        wd2 = new Item("wardrobe", 0, 500);
+        collar = new Item("collar", 0,10);
 
-        outside.setItem(key);
+
+        stairway.setItem(key);
+        stairway.setItem(collar);
         bathroom.setItem(hammer);
+        bathroom.setItem(wardrobe);
+        kitchen.setItem(winebottle);
+        bedroom.setItem(wd2);
+        bedroom.setItem(bed);
+
+
+
 
         currentRoom = basement; // start game outside
         currentDirection = "";
@@ -54,7 +67,7 @@ public class Game {
      */
     public void play() {
         prints.printWelcome(currentRoom);
-        outside.showItems();
+        basement.showItems();
         boolean finished = false;
         while (!finished) {
             Command command = parser.getCommand();
