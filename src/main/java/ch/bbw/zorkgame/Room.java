@@ -10,11 +10,13 @@ public class Room {
         private String description;
         private HashMap<String, Room> exits;
         private String name;
+        private ArrayList<Item> items;
 
         public Room(String description, String name) {
             this.description = description;
             this.exits = new HashMap<>();
             this.name = name;
+            this.items = new ArrayList<>();
         }
 
         public void setExits(Room north, Room east, Room south, Room west) {
@@ -49,17 +51,21 @@ public class Room {
             return exits.get(direction);
         }
 
-
         public void setItem(Item item) {
             items.add(item);
         }
 
         public void listItems() {
-            int number = 0;
-            for (Item item: items) {
-                number++;
-                System.out.println("Item "+ number + ": " + item.getName());
-            };
+            if (items.isEmpty()) {
+                System.out.println("Here are no items");
+            } else {
+                int number = 0;
+                for (Item item: items) {
+                    number++;
+                    System.out.println("Item "+ number + ": " + item.getName());
+                }
+            }
+
         }
 
         @Override

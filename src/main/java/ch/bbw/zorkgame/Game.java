@@ -13,6 +13,8 @@ public class Game {
     private Room outside, bathroom, basement, kitchen, stairway, bedroom;
     private String currentDirection;
     private ArrayList<Room> rooms;
+    private Item key, hammer, winebottle, bed, wardrobe, wd2, plant;
+    private Prints prints;
 
     public Game() {
         parser = new Parser(System.in);
@@ -158,7 +160,7 @@ public class Game {
             System.out.println("Exits:");
             room.showExits();
             System.out.println();
-            System.out.println("Items:");
+            room.listItems();
             System.out.println("------------------------------");
         }
     }
