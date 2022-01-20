@@ -5,18 +5,18 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Stack;
 
-import static ch.bbw.zorkgame.Constants.COMMAND_BACK;
+import static ch.bbw.zorkgame.Constants.*;
 
 
 public class Game {
     private Parser parser;
     private Room currentRoom;
-    private Room outside, bathroom, basement, stairway, bedroom, kitchen ;
-    private Prints prints;
+    private Room outside, bathroom, basement, kitchen, stairway, bedroom;
     private String currentDirection;
+    private Prints prints;
+    private Item key, hammer, winebottle, bed, wardrobe, wd2, plant;
 
     public Game() {
-
 
         parser = new Parser(System.in);
 
@@ -24,29 +24,42 @@ public class Game {
         bathroom = new Room("bathroom, a dark room with one small window. There is a wardrobe next to the bathtub. Do you want to open it? ");
         basement = new Room("You're in the basement. On the left side and on the right side is a door. The door on the right side is locked and you can't open it with your hands.");
         stairway = new Room("You can see the stairs and the dog of your kidnapper. It's a bulldog. He's happily sleeping on the carpet. Wait, he has a key on his collar");
-        kitchen = new Room("The kitchen and the living room are together. The old man is in the kitchen and preparing food for you.");
+        kitchen = new Room("You're in the kitchen. The old man is in the kitchen and preparing food for dinner. He is deaf so you don't have to worry of making noices.");
         bedroom = new Room("That's the room of this old, blind man. There is a huge bed and a wardrobe.");
 
-        outside.setExits(null, null, kitchen, null);
+        outside.setExits(kitchen, null, null, null);
         bathroom.setExits(null, basement, null, null);
         basement.setExits(null, stairway, null, bathroom);
-        stairway.setExits(null, null, kitchen, null);
+        stairway.setExits(null, null, kitchen, basement);
         bedroom.setExits(null, kitchen, null, null);
         kitchen.setExits(stairway,null, outside, bedroom);
 
-        currentRoom = basement; // start game outside
+        key = new Item("key", 1, 10);
+        hammer = new Item("hammer", 2, 50);
+        winebottle = new Item("winebottle", 1, 80);
+        bed = new Item("bed",0,1000);
+        wardrobe = new Item("wardrobe",0,1500);
+        wd2 = new Item("wardrobe", 0, 500);
+        plant = new Item("plant", 0,10);
+
+        stairway.setItem(key);
+        stairway.setItem(plant);
+        bathroom.setItem(hammer);
+        bathroom.setItem(wardrobe);
+        kitchen.setItem(winebottle);
+        bedroom.setItem(wd2);
+        bedroom.setItem(bed);
+
+        currentRoom = basement; // start game in the basement
+        currentDirection = "";
         prints = new Prints();
     }
-
 
     /**
      *  Main play routine.  Loops until end of play.
      */
     public void play() {
         prints.printWelcome(currentRoom);
-
-        // Enter the main command loop.  Here we repeatedly read commands and
-        // execute them until the game is over.
         boolean finished = false;
         while (!finished) {
             Command command = parser.getCommand();
@@ -71,7 +84,10 @@ public class Game {
         } else if(commandWord.equals("back")) {
             goLastRoom();
 
-        } else if (commandWord.equals("quit")) {
+        } else if (commandWord.equals("show")){
+            showItems(command);
+        }
+        else if (commandWord.equals("quit")) {
             if (command.hasSecondWord()) {
                 System.out.println("Quit what?");
             } else {
@@ -85,10 +101,8 @@ public class Game {
         if (!command.hasSecondWord()) {
             System.out.println("Go where?");
         } else {
-
             String direction = command.getSecondWord();
             currentDirection = direction;
-
             // Try to leave current room.
             Room nextRoom = currentRoom.nextRoom(direction);
 
@@ -122,5 +136,16 @@ public class Game {
             return null;
         }
     }
-
+    private void showItems(Command command){
+        if (!command.hasSecondWord()) {
+            System.out.println("show what?");
+        } else {
+            String secondCommad = command.getSecondWord();
+            if(secondCommad.equals("items")){
+                currentRoom.listItems();
+            } else {
+                System.out.println("There is a spelling mistake in your command. Your second command is " + secondCommad);
+            }
+        }
+    }
 }
