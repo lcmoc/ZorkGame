@@ -26,7 +26,7 @@ public class Game {
         outside.setExits(null, null, kitchen, null);
         bathroom.setExits(null, basement, null, null);
         basement.setExits(null, stairway, null, bathroom);
-        stairway.setExits(null, null, kitchen, null);
+        stairway.setExits(null, null, kitchen, basement);
         bedroom.setExits(null, kitchen, null, null);
         kitchen.setExits(stairway,null, outside, bedroom);
 
@@ -91,12 +91,16 @@ public class Game {
     }
 
     public void goLastRoom() {
-        System.out.println(currentRoom);
-        String back = lastRoom(currentDirection);
-        Room lastRoom = currentRoom.nextRoom(back);
+        if(currentDirection != null) {
+            System.out.println(currentRoom);
+            String back = lastRoom(currentDirection);
+            Room lastRoom = currentRoom.nextRoom(back);
 
-        currentRoom = lastRoom;
-        System.out.println(currentRoom.longDescription());
+            currentRoom = lastRoom;
+            System.out.println(currentRoom.longDescription());
+        } else {
+            System.out.println("you can't go back");
+        }
     }
 
     public String lastRoom(String currentDirection) {
@@ -109,7 +113,6 @@ public class Game {
         } else if(currentDirection.equals("west")) {
             return "east";
         } else {
-            System.out.println("there is no door");
             return null;
         }
     }
@@ -120,6 +123,7 @@ public class Game {
         }
         System.out.println("you are in " + currentRoom.shortDescription());
         System.out.println();
+
     }
 
 }
