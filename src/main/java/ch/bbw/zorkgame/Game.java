@@ -11,28 +11,30 @@ import static ch.bbw.zorkgame.Constants.COMMAND_BACK;
 public class Game {
     private Parser parser;
     private Room currentRoom;
-    private Room outside, lab, tavern, gblock, office;
-    private String currentDirection;
+    private Room outside, bathroom, basement, stairway, bedroom, kitchen ;
     private Prints prints;
+    private String currentDirection;
 
     public Game() {
 
+
         parser = new Parser(System.in);
 
-        outside = new Room("outside G block on Peninsula campus");
-        lab = new Room("lab, a lecture theatre in A block");
-        tavern = new Room("the Seahorse Tavern (the campus pub)");
-        gblock = new Room("the G Block");
-        office = new Room("the computing admin office");
+        outside = new Room("Finally you escaped from the house. But you still have to hurry and so he can't catch you. There is the small car of your kidnapper in front of the door. 10 meters away there is a scooter and also a bus station");
+        bathroom = new Room("bathroom, a dark room with one small window. There is a wardrobe next to the bathtub. Do you want to open it? ");
+        basement = new Room("You're in the basement. On the left side and on the right side is a door. The door on the right side is locked and you can't open it with your hands.");
+        stairway = new Room("You can see the stairs and the dog of your kidnapper. It's a bulldog. He's happily sleeping on the carpet. Wait, he has a key on his collar");
+        kitchen = new Room("The kitchen and the living room are together. The old man is in the kitchen and preparing food for you.");
+        bedroom = new Room("That's the room of this old, blind man. There is a huge bed and a wardrobe.");
 
-        outside.setExits(null, lab, gblock, tavern);
-        lab.setExits(null, null, null, outside);
-        tavern.setExits(null, outside, null, null);
-        gblock.setExits(outside, office, null, null);
-        office.setExits(null, null, null, gblock);
+        outside.setExits(null, null, kitchen, null);
+        bathroom.setExits(null, basement, null, null);
+        basement.setExits(null, stairway, null, bathroom);
+        stairway.setExits(null, null, kitchen, null);
+        bedroom.setExits(null, kitchen, null, null);
+        kitchen.setExits(stairway,null, outside, bedroom);
 
-        currentRoom = outside; // start game outside
-        currentDirection = "";
+        currentRoom = basement; // start game outside
         prints = new Prints();
     }
 
