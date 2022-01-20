@@ -1,4 +1,4 @@
-package ch.bbw.zorkgame.CommandComponents;
+package ch.bbw.zorkgame;
 
 import java.util.Arrays;
 import java.util.List;

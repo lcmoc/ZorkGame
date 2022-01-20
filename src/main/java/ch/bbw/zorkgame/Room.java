@@ -54,4 +54,9 @@ public class Room {
                 System.out.println(item.getItemName());
             };
         }
+        @Override
+        public String toString() {
+            return "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––";
+        }
+
 }
