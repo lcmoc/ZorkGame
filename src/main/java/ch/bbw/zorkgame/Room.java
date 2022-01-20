@@ -1,6 +1,7 @@
 package ch.bbw.zorkgame;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Room {
 
@@ -21,18 +22,24 @@ public class Room {
             exits.put("west", west);
         }
 
+        public void showExits() {
+            for (Map.Entry<String, Room> entry : exits.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+
+                if(value != null) {
+                    System.out.println("- " + key);
+                }
+            }
+        }
+
         public String shortDescription() {
             return name;
         }
 
         public String longDescription() {
             StringBuilder stringBuilder = new StringBuilder(description + ".\n");
-            stringBuilder.append(exitString());
             return stringBuilder.toString();
-        }
-
-        private String exitString() {
-            return "Exits:" + String.join(" ", exits.keySet());
         }
 
         public Room nextRoom(String direction) {

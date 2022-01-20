@@ -13,6 +13,7 @@ public class Game {
     private Room outside, bathroom, basement, stairway, bedroom, kitchen ;
     private Prints prints;
     private String currentDirection;
+    private ArrayList<Room> rooms;
 
     public Game() {
         parser = new Parser(System.in);
@@ -32,6 +33,14 @@ public class Game {
 
         currentRoom = basement; // start game outside
         prints = new Prints();
+
+        rooms = new ArrayList<Room>();
+        rooms.add(outside);
+        rooms.add(bathroom);
+        rooms.add(basement);
+        rooms.add(stairway);
+        rooms.add(kitchen);
+        rooms.add(bedroom);
     }
 
     /**
@@ -123,7 +132,16 @@ public class Game {
         }
         System.out.println("you are in " + currentRoom.shortDescription());
         System.out.println();
-
+        System.out.println("Other rooms and items:");
+        for(Room room: rooms) {
+            System.out.println(room.shortDescription());
+            System.out.println();
+            System.out.println("Exits:");
+            room.showExits();
+            System.out.println();
+            System.out.println("Items:");
+            System.out.println("------------------------------");
+        }
     }
 
 }
