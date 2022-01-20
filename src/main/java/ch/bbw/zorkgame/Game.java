@@ -11,37 +11,42 @@ import static ch.bbw.zorkgame.Constants.COMMAND_BACK;
 public class Game {
     private Parser parser;
     private Room currentRoom;
-    private Room outside, lab, tavern, gblock, office;
+    private Room outside, bathroom, basement, kitchen, stairway, bedroom;
     private String currentDirection;
     private Prints prints;
-    private Item key, knife;
+    private Item key, hammer, winebottle;
 
     public Game() {
 
         parser = new Parser(System.in);
 
-        outside = new Room("outside G block on Peninsula campus");
-        lab = new Room("lab, a lecture theatre in A block");
-        tavern = new Room("the Seahorse Tavern (the campus pub)");
-        gblock = new Room("the G Block");
-        office = new Room("the computing admin office");
+        outside = new Room("Finally you escaped from the house. But you still have to hurry and so he can't catch you. There is the small car of your kidnapper in front of the door. 10 meters away there is a scooter and also a bus station");
+        bathroom = new Room("bathroom, a dark room with one small window. There is a wardrobe next to the bathtub. Do you want to open it? ");
+        basement = new Room("You're in the basement. On the left side and on the right side is a door. The door on the right side is locked and you can't open it with your hands.");
+        stairway = new Room("You can see the stairs and the dog of your kidnapper. It's a bulldog. He's happily sleeping on the carpet. Wait, he has a key on his collar");
+        kitchen = new Room("The kitchen and the living room are together. The old man is in the kitchen and preparing food for you.");
+        bedroom = new Room("That's the room of this old, blind man. There is a huge bed and a wardrobe.");
 
-        outside.setExits(null, lab, gblock, tavern);
-        lab.setExits(null, null, null, outside);
-        tavern.setExits(null, outside, null, null);
-        gblock.setExits(outside, office, null, null);
-        office.setExits(null, null, null, gblock);
+        outside.setExits(kitchen, null, null, null);
+        bathroom.setExits(null, basement, null, null);
+        basement.setExits(null, stairway, null, bathroom);
+        stairway.setExits(null, null, kitchen, basement);
+        bedroom.setExits(null, kitchen, null, null);
+        kitchen.setExits(stairway,null, outside, bedroom);
 
-        key = new Item("knife", 2, 20);
+
+        key = new Item("key", 1, 10);
+        hammer = new Item("hammer", 2, 50);
+        winebottle = new Item("winebottle", 1, 80);
 
         outside.setItem(key);
+        bathroom.setItem(hammer);
 
-        outside.showItems();
-
-        currentRoom = outside; // start game outside
+        currentRoom = basement; // start game outside
         currentDirection = "";
         prints = new Prints();
     }
+
 
 
     /**
@@ -49,9 +54,7 @@ public class Game {
      */
     public void play() {
         prints.printWelcome(currentRoom);
-
-        // Enter the main command loop.  Here we repeatedly read commands and
-        // execute them until the game is over.
+        outside.showItems();
         boolean finished = false;
         while (!finished) {
             Command command = parser.getCommand();

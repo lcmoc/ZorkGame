@@ -2,6 +2,7 @@ package ch.bbw.zorkgame;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Room {
 
@@ -9,7 +10,8 @@ public class Room {
         private HashMap<String, Room> exits;
         private ArrayList<Item> items;
 
-        public Room(String description) {
+
+    public Room(String description) {
             this.description = description;
             this.exits = new HashMap<>();
             items = new ArrayList<Item>();
@@ -27,7 +29,7 @@ public class Room {
         }
 
         public String longDescription() {
-            StringBuilder stringBuilder = new StringBuilder("You are in " + description + ".\n");
+            StringBuilder stringBuilder = new StringBuilder(description + ".\n");
             stringBuilder.append(exitString());
             return stringBuilder.toString();
         }
@@ -47,8 +49,8 @@ public class Room {
         }
 
         public void showItems() {
-            for(Item item: items) {
-                System.out.println(item.getName());
+            for (Item item: items) {
+                System.out.println("Items:"+ item.getName());
             };
         }
 
