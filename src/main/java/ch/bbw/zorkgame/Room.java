@@ -48,8 +48,8 @@ public class Room {
             items.add(item);
         }
 
-        public void showItems() {
-        int number = 0;
+        public void listItems() {
+            int number = 0;
             for (Item item: items) {
                 number++;
                 System.out.println("Item "+ number + ": " + item.getName());
