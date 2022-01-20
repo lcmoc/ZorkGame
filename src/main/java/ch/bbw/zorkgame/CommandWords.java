@@ -3,18 +3,18 @@ package ch.bbw.zorkgame;
 import java.util.Arrays;
 import java.util.List;
 
-public class CommandWords {
+import static ch.bbw.zorkgame.Constants.*;
 
-    private List<String> validCommands = Arrays.asList("go", "quit", "help" );
+public class CommandWords {
+    private List<String> validCommands = Arrays.asList(COMMAND_GO, COMMAND_QUIT, COMMAND_HELP, COMMAND_BACK, COMMAND_MAP, COMMAND_SHOW);
 
     public boolean isCommand(String commandWord) {
         return validCommands.stream()
-                .filter(c -> c.equals(commandWord))
+                .filter(command -> command.equals(commandWord))
                 .count()>0;
     }
 
     public String showAll() {
         return String.join(" ", validCommands);
     }
-
 }
