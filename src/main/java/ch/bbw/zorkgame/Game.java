@@ -14,6 +14,7 @@ public class Game {
     private Room outside, lab, tavern, gblock, office;
     private String currentDirection;
     private Prints prints;
+    private Item key, knife;
 
     public Game() {
 
@@ -30,6 +31,12 @@ public class Game {
         tavern.setExits(null, outside, null, null);
         gblock.setExits(outside, office, null, null);
         office.setExits(null, null, null, gblock);
+
+        key = new Item("knife", 2, 20);
+
+        outside.setItem(key);
+
+        outside.showItems();
 
         currentRoom = outside; // start game outside
         currentDirection = "";

@@ -7,6 +7,6 @@ public class Inventory {
 
     public Inventory(Item item) {
         itemList = new HashMap<String, Integer>();
-        itemList.put(item.getItemName(), item.getItemUsablility());
+        itemList.put(item.getName(), item.getUsability());
     }
 }

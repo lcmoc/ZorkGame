@@ -41,9 +41,6 @@ public class Room {
             return exits.get(direction);
         }
 
-        public String setEvent(String eventDescription) {
-            return eventDescription;
-        }
 
         public void setItem(Item item) {
             items.add(item);
@@ -51,9 +48,10 @@ public class Room {
 
         public void showItems() {
             for(Item item: items) {
-                System.out.println(item.getItemName());
+                System.out.println(item.getName());
             };
         }
+
         @Override
         public String toString() {
             return "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––";

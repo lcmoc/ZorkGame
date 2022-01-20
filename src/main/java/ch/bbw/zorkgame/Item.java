@@ -1,27 +1,37 @@
 package ch.bbw.zorkgame;
 
 public class Item {
-    private String itemName;
-    private int itemUsablility;
+    private String name;
+    private int usability;
+    private int weight;
 
-    public Item(String name, int value, int usablility) {
-        setItemName(name);
-        setItemUsablility(usablility);
+    public Item(String name, int usablility, int weight) {
+        setName(name);
+        setUsability(usablility);
+        setWeight(weight);
     }
 
-    public String getItemName() {
-        return itemName;
+    public String getName() {
+        return name;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getItemUsablility() {
-        return itemUsablility;
+    public int getUsability() {
+        return usability;
     }
 
-    public void setItemUsablility(int itemUsablility) {
-        this.itemUsablility = itemUsablility;
+    public void setUsability(int usability) {
+        this.usability = usability;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 }
