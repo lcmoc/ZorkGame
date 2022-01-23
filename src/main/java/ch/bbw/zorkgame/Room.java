@@ -10,13 +10,13 @@ public class Room {
         private String description;
         private HashMap<String, Room> exits;
         private String name;
-        private ArrayList<Item> items;
+        private HashMap<String, Item> items;
 
         public Room(String description, String name) {
             this.description = description;
             this.exits = new HashMap<>();
             this.name = name;
-            this.items = new ArrayList<>();
+            this.items = new HashMap<>();
         }
 
         public void setExits(Room north, Room east, Room south, Room west) {
@@ -52,7 +52,7 @@ public class Room {
         }
 
         public void setItem(Item item) {
-            items.add(item);
+            items.put(item.getName(), item);
         }
 
         public void listItems() {
@@ -60,7 +60,7 @@ public class Room {
                 System.out.println("Here are no items");
             } else {
                 int number = 0;
-                for (Item item: items) {
+                for (Item item: items.values()) {
                     number++;
                     System.out.println("Item "+ number + ": " + item.getName());
                 }
@@ -68,10 +68,16 @@ public class Room {
 
         }
 
-        @Override
+        public HashMap<String, Item> getItems() {
+            return items;
+        }
+
+        public void removeItem(String name) {
+            items.remove(name);
+        }
+
+    @Override
         public String toString() {
             return "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––";
         }
-
-
 }
