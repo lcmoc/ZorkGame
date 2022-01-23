@@ -7,4 +7,7 @@ public class Constants {
     public static final String COMMAND_BACK = "back";
     public static final String COMMAND_MAP = "map";
     public static final String COMMAND_SHOW = "show";
+    public static final String COMMAND_INVENTORY = "inventory";
+    public static final String COMMAND_TAKE = "take";
+    public static final String COMMAND_DROP = "drop";
 }
