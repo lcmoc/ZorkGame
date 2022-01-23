@@ -86,8 +86,7 @@ public class Game {
 
         } else if (commandWord.equals("show")){
             showItems(command);
-        }
-        else if (commandWord.equals("quit")) {
+        } else if (commandWord.equals("quit")) {
             if (command.hasSecondWord()) {
                 System.out.println("Quit what?");
             } else {

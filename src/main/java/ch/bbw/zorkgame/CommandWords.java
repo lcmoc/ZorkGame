@@ -6,7 +6,7 @@ import java.util.List;
 import static ch.bbw.zorkgame.Constants.*;
 
 public class CommandWords {
-    private List<String> validCommands = Arrays.asList(COMMAND_GO, COMMAND_QUIT, COMMAND_HELP, COMMAND_BACK, COMMAND_SHOW);
+    private List<String> validCommands = Arrays.asList(COMMAND_GO, COMMAND_QUIT, COMMAND_HELP, COMMAND_BACK, COMMAND_SHOW, COMMAND_KILL);
 
     public boolean isCommand(String commandWord) {
         return validCommands.stream()
