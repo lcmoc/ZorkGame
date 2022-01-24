@@ -28,15 +28,15 @@ public class Game {
         basement.setExits(null, stairway, null, bathroom);
         stairway.setExits(null, null, kitchen, basement);
         bedroom.setExits(null, kitchen, null, null);
-        kitchen.setExits(stairway,null, outside, bedroom);
+        kitchen.setExits(stairway, null, outside, bedroom);
 
-        key = new Item("key", 1, 10);
-        hammer = new Item("hammer", 2, 50);
-        winebottle = new Item("winebottle", 1, 80);
-        bed = new Item("bed",0,1000);
-        wardrobe = new Item("wardrobe",0,1500);
-        wd2 = new Item("wardrobe", 0, 500);
-        plant = new Item("plant", 0,10);
+        key = new Item("key", 10);
+        hammer = new Item("hammer", 60);
+        winebottle = new Item("winebottle", 80);
+        bed = new Item("bed", 1000);
+        wardrobe = new Item("wardrobe", 1500);
+        wd2 = new Item("wardrobe", 500);
+        plant = new Item("plant", 10);
 
         stairway.setItem(key);
         stairway.setItem(plant);
@@ -46,8 +46,8 @@ public class Game {
         bedroom.setItem(wd2);
         bedroom.setItem(bed);
 
-        currentRoom = basement; // start game in the basement
-        currentDirection = "";
+        currentRoom = basement;
+
         prints = new Prints();
 
         rooms = new ArrayList<Room>();
@@ -60,10 +60,6 @@ public class Game {
 
         inventory = new Inventory();
     }
-
-    /**
-     *  Main play routine.  Loops until end of play.
-     */
 
     public void play() {
         prints.printWelcome(currentRoom);
@@ -87,21 +83,21 @@ public class Game {
             prints.printHelp(parser);
         } else if (commandWord.equals(COMMAND_GO)) {
             goRoom(command);
-        } else if(commandWord.equals(COMMAND_BACK)) {
+        } else if (commandWord.equals(COMMAND_BACK)) {
             goLastRoom();
-        } else if(commandWord.equals(COMMAND_MAP)) {
+        } else if (commandWord.equals(COMMAND_MAP)) {
             printMap();
-        } else if (commandWord.equals(COMMAND_SHOW)){
+        } else if (commandWord.equals(COMMAND_SHOW)) {
             showItems(command);
         } else if (commandWord.equals(COMMAND_TAKE)) {
             takeItem(command);
-        } else if(commandWord.equals(COMMAND_DROP)){
+        } else if (commandWord.equals(COMMAND_DROP)) {
             dropItem(command);
         } else if (commandWord.equals(COMMAND_QUIT)) {
             if (command.hasSecondWord()) {
                 System.out.println("Quit what?");
             } else {
-                return true; // signal that we want to quit
+                return true;
             }
         }
         return false;
@@ -124,7 +120,7 @@ public class Game {
     }
 
     public void goLastRoom() {
-        if(currentDirection != null) {
+        if (currentDirection != null) {
             System.out.println(currentRoom);
             String back = lastRoom(currentDirection);
             Room lastRoom = currentRoom.nextRoom(back);
@@ -137,13 +133,13 @@ public class Game {
     }
 
     public String lastRoom(String currentDirection) {
-        if(currentDirection.equals("north")) {
+        if (currentDirection.equals("north")) {
             return "south";
-        } else if(currentDirection.equals("south")) {
+        } else if (currentDirection.equals("south")) {
             return "north";
-        } else if(currentDirection.equals("east")) {
+        } else if (currentDirection.equals("east")) {
             return "west";
-        } else if(currentDirection.equals("west")) {
+        } else if (currentDirection.equals("west")) {
             return "east";
         } else {
             return null;
@@ -151,13 +147,13 @@ public class Game {
     }
 
     public void printMap() {
-        if(currentDirection != null) {
+        if (currentDirection != null) {
             System.out.println("you came from " + lastRoom(currentDirection));
         }
         System.out.println("you are in " + currentRoom.shortDescription());
         System.out.println();
         System.out.println("Other rooms and items:");
-        for(Room room: rooms) {
+        for (Room room : rooms) {
             System.out.println(room.shortDescription());
             System.out.println();
             System.out.println("Exits:");
@@ -168,17 +164,16 @@ public class Game {
         }
     }
 
-    private void showItems(Command command){
+    private void showItems(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("show what?");
         } else {
             String secondCommad = command.getSecondWord();
-            if(secondCommad.equals("items")){
+            if (secondCommad.equals("items")) {
                 currentRoom.listItems();
-            } else if(secondCommad.equals("inventory")) {
+            } else if (secondCommad.equals("inventory")) {
                 inventory.showItems();
-            }
-            else {
+            } else {
                 System.out.println("There is a spelling mistake in your command. Your second command is " + secondCommad);
             }
         }
@@ -191,13 +186,13 @@ public class Game {
             String secondCommad = command.getSecondWord();
             HashMap<String, Item> currentItems = currentRoom.getItems();
 
-            for(Item item: currentItems.values()) {
-                if(inventory.getTotalItemWeight() > 100) {
+            for (Item item : currentItems.values()) {
+                if (inventory.getTotalItemWeight() > 100 && item.getWeight() > 100) {
                     System.out.println("you are to heavy, you cant take anything more with you");
                     System.out.println("type drop and the item name, to lose weight");
-                } else if(secondCommad.equals(item.getName())) {
+                } else if (secondCommad.equals(item.getName())) {
                     inventory.setItem(item);
-                    currentRoom.removeItem(secondCommad);
+                    currentRoom.removeItem(item.getName());
                     inventory.showItems();
                 }
             }
@@ -215,7 +210,7 @@ public class Game {
                 String name = entry.getKey();
                 Item item = entry.getValue();
 
-                if(secondCommad.equals(name)) {
+                if (secondCommad.equals(name)) {
                     inventory.drop(name);
                     currentRoom.setItem(item);
                 }

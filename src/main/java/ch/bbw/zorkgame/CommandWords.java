@@ -20,7 +20,7 @@ public class CommandWords {
     public boolean isCommand(String commandWord) {
         return validCommands.stream()
                 .filter(command -> command.equals(commandWord))
-                .count()>0;
+                .count() > 0;
     }
 
     public String showAll() {
