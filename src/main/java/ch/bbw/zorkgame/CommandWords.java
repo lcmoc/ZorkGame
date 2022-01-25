@@ -14,7 +14,8 @@ public class CommandWords {
             COMMAND_MAP,
             COMMAND_SHOW,
             COMMAND_TAKE,
-            COMMAND_DROP
+            COMMAND_DROP,
+            COMMAND_KILL
     );
 
     public boolean isCommand(String commandWord) {

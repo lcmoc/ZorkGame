@@ -51,6 +51,18 @@ public class Room {
             return exits.get(direction);
         }
 
+        public void killIt(){
+            //u can only kill if you have a hammer or winebottle
+            //after kill command you need type in what you want to kill
+            if(items.){
+                System.out.println("The dog was following you, so you killed the dog.");
+                System.out.println("Now you can move on safely.");
+            }
+            else {
+                System.out.println("HAHAYT");
+            }
+        }
+
         public void setItem(Item item) {
             items.put(item.getName(), item);
         }
