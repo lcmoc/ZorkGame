@@ -93,10 +93,9 @@ public class Game {
             takeItem(command);
         } else if (commandWord.equals(COMMAND_DROP)) {
             dropItem(command);
-        } else if(commandWord.equals(COMMAND_KILL)) {
+        } else if (commandWord.equals(COMMAND_KILL)) {
             kill(command);
-        }
-        else if (commandWord.equals(COMMAND_QUIT)) {
+        } else if (commandWord.equals(COMMAND_QUIT)) {
             if (command.hasSecondWord()) {
                 System.out.println("Quit what?");
             } else {
@@ -111,24 +110,23 @@ public class Game {
             System.out.println("kill what?");
         } else {
             String secondCommad = command.getSecondWord();
-            if(secondCommad.equals("dog")) {
+            if (secondCommad.equals("dog")) {
                 if (currentRoom.equals(basement) || currentRoom.equals(bathroom)) {
                     System.out.println("You're not in the same room as the dog");
+                } else if (inventory.getItemList().containsKey("hammer") || inventory.getItemList().containsKey("winebottle")) {
+                    System.out.println("The dog was following you, so you killed the dog.");
+                    System.out.println("Now you can move on safely.");
+                } else {
+                    System.out.println("you dont have a weapon to kill him, you would have no chance");
                 }
-                else{
-                    currentRoom.killIt();
-                }
-            }
-            else if(secondCommad.equals("man")){
-                if(currentRoom.equals(kitchen)){
-                System.out.println("You tried to kill him, but he killed you.");
-                System.exit(0);
-            }
-                else{
+            } else if (secondCommad.equals("man")) {
+                if (currentRoom.equals(kitchen)) {
+                    System.out.println("You tried to kill him, but he killed you.");
+                    System.exit(0);
+                } else {
                     System.out.println("You're not in the same room as your kidnapper");
                 }
-            }
-            else {
+            } else {
                 System.out.println("There is a spelling mistake in your command. Your second command is " + secondCommad);
             }
         }
@@ -217,15 +215,19 @@ public class Game {
             String secondCommad = command.getSecondWord();
             HashMap<String, Item> currentItems = currentRoom.getItems();
 
-            for (Item item : currentItems.values()) {
-                if (inventory.getTotalItemWeight() > 100 && item.getWeight() > 100) {
-                    System.out.println("you are to heavy, you cant take anything more with you");
-                    System.out.println("type drop and the item name, to lose weight");
-                } else if (secondCommad.equals(item.getName())) {
-                    inventory.setItem(item);
-                    currentRoom.removeItem(item.getName());
-                    inventory.showItems();
+            if(currentItems.containsKey(secondCommad)) {
+                for (Item item : currentItems.values()) {
+                    if (inventory.getTotalItemWeight() > 100 && item.getWeight() > 100) {
+                        System.out.println("you are to heavy, you cant take anything more with you");
+                        System.out.println("type drop and the item name, to lose weight");
+                    } else if (secondCommad.equals(item.getName())) {
+                        inventory.setItem(item);
+                        currentRoom.removeItem(item.getName());
+                        inventory.showItems();
+                    }
                 }
+            } else {
+                System.out.println("there is no such item in this room");
             }
         }
     }
@@ -237,14 +239,19 @@ public class Game {
             String secondCommad = command.getSecondWord();
             HashMap<String, Item> currentItems = inventory.getItemList();
 
-            for (Map.Entry<String, Item> entry : currentItems.entrySet()) {
-                String name = entry.getKey();
-                Item item = entry.getValue();
+            if (currentItems.containsKey(secondCommad)) {
+                for (Map.Entry<String, Item> entry : currentItems.entrySet()) {
+                    String name = entry.getKey();
+                    Item item = entry.getValue();
 
-                if (secondCommad.equals(name)) {
-                    inventory.drop(name);
-                    currentRoom.setItem(item);
+                    if (secondCommad.equals(name)) {
+                        inventory.drop(name);
+                        currentRoom.setItem(item);
+                        inventory.showItems();
+                    }
                 }
+            } else {
+                System.out.println("you dont have that item in your inventory");
             }
         }
     }
