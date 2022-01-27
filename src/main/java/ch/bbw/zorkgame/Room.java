@@ -52,9 +52,7 @@ public class Room {
         }
 
         public void killIt(){
-            //u can only kill if you have a hammer or winebottle
-            //after kill command you need type in what you want to kill
-            if(items.){
+            if(items.containsValue(true)){
                 System.out.println("The dog was following you, so you killed the dog.");
                 System.out.println("Now you can move on safely.");
             }
