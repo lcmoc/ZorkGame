@@ -32,7 +32,6 @@ public class TestZorkGame {
         room.setExits(null, room2, room3, null);
         room2.setExits(null, null, null, room);
         room3.setExits(room, null, null, null);
-
         room.setItem(item);
         room2.setItem(item2);
         room3.setItem(item3);
@@ -40,11 +39,9 @@ public class TestZorkGame {
         assertEquals(room2, room.nextRoom("east"));
         assertEquals(room3, room.nextRoom("south"));
         assertEquals(null, room3.nextRoom("south"));
-
         assertEquals("sitting room", room.shortDescription());
         assertEquals("kidsroom", room2.shortDescription());
         assertEquals("attic", room3.shortDescription());
-
         room.removeItem("pen");
         assertNull(room.getItems().get("pen"));
     }
@@ -119,7 +116,6 @@ public class TestZorkGame {
         assertFalse(game.processCommand(command1));
         assertFalse(game.processCommand(command2));
         assertFalse(game.processCommand(command3));
-
         assertTrue(game.processCommand(command4));
     }
 }
