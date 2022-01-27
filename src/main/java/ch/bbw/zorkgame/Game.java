@@ -93,7 +93,10 @@ public class Game {
             takeItem(command);
         } else if (commandWord.equals(COMMAND_DROP)) {
             dropItem(command);
-        } else if (commandWord.equals(COMMAND_QUIT)) {
+        } else if(commandWord.equals(COMMAND_KILL)) {
+            kill(command);
+        }
+        else if (commandWord.equals(COMMAND_QUIT)) {
             if (command.hasSecondWord()) {
                 System.out.println("Quit what?");
             } else {
@@ -101,6 +104,34 @@ public class Game {
             }
         }
         return false;
+    }
+
+    private void kill(Command command) {
+        if (!command.hasSecondWord()) {
+            System.out.println("kill what?");
+        } else {
+            String secondCommad = command.getSecondWord();
+            if(secondCommad.equals("dog")) {
+                if (currentRoom.equals(basement) || currentRoom.equals(bathroom)) {
+                    System.out.println("You're not in the same room as the dog");
+                }
+                else{
+                    currentRoom.killIt();
+                }
+            }
+            else if(secondCommad.equals("man")){
+                if(currentRoom.equals(kitchen)){
+                System.out.println("You tried to kill him, but he killed you.");
+                System.exit(0);
+            }
+                else{
+                    System.out.println("You're not in the same room as your kidnapper");
+                }
+            }
+            else {
+                System.out.println("There is a spelling mistake in your command. Your second command is " + secondCommad);
+            }
+        }
     }
 
     private void goRoom(Command command) {
