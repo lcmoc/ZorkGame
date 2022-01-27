@@ -7,7 +7,9 @@ public class Inventory {
     private HashMap<String, Item> itemList;
     private int totalItemWeight = 0;
 
-    public Inventory() { itemList = new HashMap<>(); }
+    public Inventory() {
+        itemList = new HashMap<>();
+    }
 
     public void setItem(Item item) {
         itemList.put(item.getName(), item);

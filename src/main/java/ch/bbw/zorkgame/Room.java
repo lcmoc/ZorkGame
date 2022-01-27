@@ -60,9 +60,9 @@ public class Room {
             System.out.println("Here are no items");
         } else {
             int number = 0;
-            for (Item item: items.values()) {
+            for (Item item : items.values()) {
                 number++;
-                System.out.println("Item "+ number + ": " + item.getName());
+                System.out.println("Item " + number + ": " + item.getName());
             }
         }
     }
