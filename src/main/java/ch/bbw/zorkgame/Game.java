@@ -241,6 +241,10 @@ public class Game {
         }
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
+
     public void dropItem(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("drop what?");
@@ -259,5 +263,7 @@ public class Game {
                 System.out.println("you dont have that item in your inventory");
             }
         }
+
+
     }
 }

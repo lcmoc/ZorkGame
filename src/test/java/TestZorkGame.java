@@ -10,10 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestZorkGame {
-
-    Parser parser;
     Game game;
-    private Room room, room2, room3, currentRoom;
+    private Room room, room2, room3;
     private Inventory inventory;
     private Item item, item2, item3;
 
@@ -23,15 +21,14 @@ public class TestZorkGame {
         item = new Item("pen", 5);
         item2 = new Item("vase", 40);
         item3 = new Item("chair", 100);
-        currentRoom = room;
+        inventory = new Inventory();
+        room = new Room("You're in the sitting room. It's a big room with a television and a sofa.", "sitting room");
+        room2 = new Room("You're in the kidsroom. There are toys on the ground and a little kid sleeping on the couch.", "kidsroom");
+        room3 = new Room("You're in the attic. It has spiders and insects everywhere.", "attic");
     }
 
     @Test
     public void testRoom() throws Exception {
-        room = new Room("You're in the sitting room. It's a big room with a television and a sofa.", "sitting room");
-        room2 = new Room("You're in the kidsroom. There are toys on the ground and a little kid sleeping on the couch.", "kidsroom");
-        room3 = new Room("You're in the attic. It has spiders and insects everywhere.", "attic");
-
         room.setExits(null, room2, room3, null);
         room2.setExits(null, null, null, room);
         room3.setExits(room, null, null, null);
@@ -90,27 +87,28 @@ public class TestZorkGame {
 
     @Test
     public void testTakeItem() {
-        Command take = new Command("take", "wardrobe");
-        Command go = new Command("go", "west");
-        game.goRoom(go);
+        Command take = new Command("take", "pen");
+        room.setItem(item);
+        System.out.println(room.getItems());
+
         game.takeItem(take);
 
-        assertTrue(inventory.getItemList().containsKey("hammer"));
-        assertFalse(currentRoom.getItems().containsKey("hammer"));
+        assertTrue(game.getInventory().getItemList().containsKey("pen"));
+        assertFalse(room.getItems().containsKey("pen"));
     }
 
     @Test
     public void testDropItem() {
         Command drop = new Command("drop", "wardrobe");
         Command take = new Command("take", "wardrobe");
-
         Command go = new Command("go", "west");
+
         game.goRoom(go);
         game.takeItem(take);
         game.dropItem(drop);
 
         assertFalse(inventory.getItemList().containsKey("hammer"));
-        assertTrue(currentRoom.getItems().containsKey("hammer"));
+        assertTrue(room.getItems().containsKey("hammer"));
     }
 
     @Test
