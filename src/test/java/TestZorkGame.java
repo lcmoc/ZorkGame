@@ -2,6 +2,8 @@ import ch.bbw.zorkgame.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static ch.bbw.zorkgame.Constants.COMMAND_HELP;
+import static ch.bbw.zorkgame.Constants.COMMAND_QUIT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -9,16 +11,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestZorkGame {
 
-    private Room room, room2, room3;
+    Parser parser;
+    Game game;
+    private Room room, room2, room3, currentRoom;
     private Inventory inventory;
     private Item item, item2, item3;
-    Parser parser;
 
     @BeforeEach
     public void before() {
+        game = new Game();
         item = new Item("pen", 5);
         item2 = new Item("vase", 40);
         item3 = new Item("chair", 100);
+        currentRoom = room;
     }
 
     @Test
@@ -72,7 +77,53 @@ public class TestZorkGame {
     }
 
     @Test
-    public void goRoom() throws  Exception {
+    public void goRoom() throws Exception {
         Command command = new Command("go", "east");
+        game.goRoom(command); // should print longDescription of the stairway
+    }
+
+    @Test
+    public void testLastRoom() throws Exception {
+        assertEquals(game.lastRoom("east"), "west");
+        assertEquals(game.lastRoom("north"), "south");
+    }
+
+    @Test
+    public void testTakeItem() {
+        Command take = new Command("take", "wardrobe");
+        Command go = new Command("go", "west");
+        game.goRoom(go);
+        game.takeItem(take);
+
+        assertTrue(inventory.getItemList().containsKey("hammer"));
+        assertFalse(currentRoom.getItems().containsKey("hammer"));
+    }
+
+    @Test
+    public void testDropItem() {
+        Command drop = new Command("drop", "wardrobe");
+        Command take = new Command("take", "wardrobe");
+
+        Command go = new Command("go", "west");
+        game.goRoom(go);
+        game.takeItem(take);
+        game.dropItem(drop);
+
+        assertFalse(inventory.getItemList().containsKey("hammer"));
+        assertTrue(currentRoom.getItems().containsKey("hammer"));
+    }
+
+    @Test
+    public void testProcessCommand() {
+        Command command1 = new Command("sthTheMethodDontKnow");
+        Command command2 = new Command(COMMAND_HELP);
+        Command command3 = new Command(COMMAND_QUIT, "game");
+        Command command4 = new Command(COMMAND_QUIT);
+
+        assertFalse(game.processCommand(command1));
+        assertFalse(game.processCommand(command2));
+        assertFalse(game.processCommand(command3));
+
+        assertTrue(game.processCommand(command4));
     }
 }

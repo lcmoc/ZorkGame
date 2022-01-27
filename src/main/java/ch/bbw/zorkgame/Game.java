@@ -71,7 +71,7 @@ public class Game {
         System.out.println("Thank you for playing.  Good bye.");
     }
 
-    private boolean processCommand(Command command) {
+    public boolean processCommand(Command command) {
         if (command.isUnknown()) {
             System.out.println("I don't know what you mean...");
             return false;
@@ -105,7 +105,7 @@ public class Game {
         return false;
     }
 
-    private void kill(Command command) {
+    public void kill(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("kill what?");
         } else {
@@ -132,7 +132,7 @@ public class Game {
         }
     }
 
-    private void goRoom(Command command) {
+    public void goRoom(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("Go where?");
         } else {
@@ -193,7 +193,7 @@ public class Game {
         }
     }
 
-    private void showItems(Command command) {
+    public void showItems(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("show what?");
         } else {
@@ -208,7 +208,7 @@ public class Game {
         }
     }
 
-    private void takeItem(Command command) {
+    public void takeItem(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("take what?");
         } else {
@@ -232,7 +232,7 @@ public class Game {
         }
     }
 
-    private void dropItem(Command command) {
+    public void dropItem(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("drop what?");
         } else {
