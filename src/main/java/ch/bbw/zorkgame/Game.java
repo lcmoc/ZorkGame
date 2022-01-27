@@ -114,7 +114,7 @@ public class Game {
                     System.out.println("You're not in the same room as the dog");
                 } else if (inventory.getItemList().containsKey("hammer") || inventory.getItemList().containsKey("winebottle")) {
                     System.out.println("The dog was following you, so you killed the dog.");
-                    System.out.println("Now you can move on safely.");
+                    System.out.println("Now you can take the key from his collar");
                     stairway.setItem(key);
                 } else {
                     System.out.println("you dont have a weapon to kill him, you would have no chance");
