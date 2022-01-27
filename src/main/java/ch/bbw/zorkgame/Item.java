@@ -2,12 +2,10 @@ package ch.bbw.zorkgame;
 
 public class Item {
     private String name;
-    private int usability;
     private int weight;
 
-    public Item(String name, int usablility, int weight) {
+    public Item(String name, int weight) {
         setName(name);
-        setUsability(usablility);
         setWeight(weight);
     }
 
@@ -17,14 +15,6 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getUsability() {
-        return usability;
-    }
-
-    public void setUsability(int usability) {
-        this.usability = usability;
     }
 
     public int getWeight() {

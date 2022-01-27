@@ -25,7 +25,7 @@ public class Parser {
             inputLine = bufferedReader.readLine();
 
             String[] tokens = inputLine.split(" ");
-            switch(tokens.length) {
+            switch (tokens.length) {
                 case 2:
                     if (validCommandWords.isCommand(tokens[0])) {
                         return new Command(tokens[0], tokens[1]);
