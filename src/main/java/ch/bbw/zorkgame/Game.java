@@ -1,9 +1,6 @@
 package ch.bbw.zorkgame;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Stack;
+import java.util.*;
 
 import static ch.bbw.zorkgame.Constants.*;
 
@@ -15,6 +12,7 @@ public class Game {
     private ArrayList<Room> rooms;
     private Item key, hammer, winebottle, bed, wardrobe, wd2, plant;
     private Prints prints;
+    private Inventory inventory;
 
     public Game() {
         parser = new Parser(System.in);
@@ -59,6 +57,8 @@ public class Game {
         rooms.add(stairway);
         rooms.add(kitchen);
         rooms.add(bedroom);
+
+        inventory = new Inventory();
     }
 
     /**
@@ -91,8 +91,14 @@ public class Game {
             goLastRoom();
         } else if(commandWord.equals(COMMAND_MAP)) {
             printMap();
-        } else if (commandWord.equals("show")){
+        } else if (commandWord.equals(COMMAND_SHOW)){
             showItems(command);
+        } else if (commandWord.equals(COMMAND_TAKE)) {
+            takeItem(command);
+        } else if(commandWord.equals(COMMAND_DROP)){
+            dropItem(command);
+        } else if(commandWord.equals(COMMAND_KILL)) {
+            kill(command);
         }
         else if (commandWord.equals(COMMAND_QUIT)) {
             if (command.hasSecondWord()) {
@@ -102,6 +108,34 @@ public class Game {
             }
         }
         return false;
+    }
+
+    private void kill(Command command) {
+        if (!command.hasSecondWord()) {
+            System.out.println("kill what?");
+        } else {
+            String secondCommad = command.getSecondWord();
+            if(secondCommad.equals("dog")) {
+                if (currentRoom.equals(basement) || currentRoom.equals(bathroom)) {
+                    System.out.println("You're not in the same room as the dog");
+                }
+                else{
+                    currentRoom.killIt();
+                }
+            }
+            else if(secondCommad.equals("man")){
+                if(currentRoom.equals(kitchen)){
+                System.out.println("You tried to kill him, but he killed you.");
+                System.exit(0);
+            }
+                else{
+                    System.out.println("You're not in the same room as your kidnapper");
+                }
+            }
+            else {
+                System.out.println("There is a spelling mistake in your command. Your second command is " + secondCommad);
+            }
+        }
     }
 
     private void goRoom(Command command) {
@@ -172,8 +206,50 @@ public class Game {
             String secondCommad = command.getSecondWord();
             if(secondCommad.equals("items")){
                 currentRoom.listItems();
-            } else {
+            } else if(secondCommad.equals("inventory")) {
+                inventory.showItems();
+            }
+            else {
                 System.out.println("There is a spelling mistake in your command. Your second command is " + secondCommad);
+            }
+        }
+    }
+
+    private void takeItem(Command command) {
+        if (!command.hasSecondWord()) {
+            System.out.println("take what?");
+        } else {
+            String secondCommad = command.getSecondWord();
+            HashMap<String, Item> currentItems = currentRoom.getItems();
+
+            for(Item item: currentItems.values()) {
+                if(inventory.getTotalItemWeight() > 100) {
+                    System.out.println("you are to heavy, you cant take anything more with you");
+                    System.out.println("type drop and the item name, to lose weight");
+                } else if(secondCommad.equals(item.getName())) {
+                    inventory.setItem(item);
+                    currentRoom.removeItem(secondCommad);
+                    inventory.showItems();
+                }
+            }
+        }
+    }
+
+    private void dropItem(Command command) {
+        if (!command.hasSecondWord()) {
+            System.out.println("drop what?");
+        } else {
+            String secondCommad = command.getSecondWord();
+            HashMap<String, Item> currentItems = inventory.getItemList();
+
+            for (Map.Entry<String, Item> entry : currentItems.entrySet()) {
+                String name = entry.getKey();
+                Item item = entry.getValue();
+
+                if(secondCommad.equals(name)) {
+                    inventory.drop(name);
+                    currentRoom.setItem(item);
+                }
             }
         }
     }
