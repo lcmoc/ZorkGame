@@ -36,6 +36,11 @@ public class TestZorkGame {
 
         assertEquals( room2,room.nextRoom("east"));
         assertEquals(room3,room.nextRoom("south"));
+        assertEquals(null, room3.nextRoom("south"));
+
+        assertEquals( "sitting room",room.shortDescription());
+        assertEquals( "kidsroom",room2.shortDescription());
+        assertEquals( "attic",room3.shortDescription());
     }
     @Test
     public void testInventory() throws Exception {
@@ -50,5 +55,9 @@ public class TestZorkGame {
     public void testItem() throws Exception {
         assertEquals("pen", item.getName());
         assertEquals(5, item.getWeight());
+        assertEquals("vase", item2.getName());
+        assertEquals(40, item2.getWeight());
+        assertEquals("chair", item3.getName());
+        assertEquals(100, item3.getWeight());
     }
 }
