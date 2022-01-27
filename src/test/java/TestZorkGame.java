@@ -89,26 +89,24 @@ public class TestZorkGame {
     public void testTakeItem() {
         Command take = new Command("take", "pen");
         room.setItem(item);
-        System.out.println(room.getItems());
-
+        game.setCurrentRoom(room);
         game.takeItem(take);
 
         assertTrue(game.getInventory().getItemList().containsKey("pen"));
-        assertFalse(room.getItems().containsKey("pen"));
+        assertFalse(game.getCurrentRoom().getItems().containsKey("pen"));
     }
 
     @Test
     public void testDropItem() {
-        Command drop = new Command("drop", "wardrobe");
-        Command take = new Command("take", "wardrobe");
-        Command go = new Command("go", "west");
-
-        game.goRoom(go);
+        Command drop = new Command("drop", "pen");
+        Command take = new Command("take", "pen");
+        room.setItem(item);
+        game.setCurrentRoom(room);
         game.takeItem(take);
         game.dropItem(drop);
 
-        assertFalse(inventory.getItemList().containsKey("hammer"));
-        assertTrue(room.getItems().containsKey("hammer"));
+        assertFalse(game.getInventory().getItemList().containsKey("pen"));
+        assertTrue(game.getCurrentRoom().getItems().containsKey("pen"));
     }
 
     @Test
