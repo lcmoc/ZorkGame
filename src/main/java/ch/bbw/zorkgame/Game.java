@@ -38,7 +38,6 @@ public class Game {
         wd2 = new Item("wardrobe", 500);
         plant = new Item("plant", 10);
 
-        stairway.setItem(key);
         stairway.setItem(plant);
         bathroom.setItem(hammer);
         bathroom.setItem(wardrobe);
@@ -71,7 +70,7 @@ public class Game {
         System.out.println("Thank you for playing.  Good bye.");
     }
 
-    private boolean processCommand(Command command) {
+    public boolean processCommand(Command command) {
         if (command.isUnknown()) {
             System.out.println("I don't know what you mean...");
             return false;
@@ -105,7 +104,7 @@ public class Game {
         return false;
     }
 
-    private void kill(Command command) {
+    public void kill(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("kill what?");
         } else {
@@ -115,7 +114,8 @@ public class Game {
                     System.out.println("You're not in the same room as the dog");
                 } else if (inventory.getItemList().containsKey("hammer") || inventory.getItemList().containsKey("winebottle")) {
                     System.out.println("The dog was following you, so you killed the dog.");
-                    System.out.println("Now you can move on safely.");
+                    System.out.println("Now you can take the key from his collar");
+                    stairway.setItem(key);
                 } else {
                     System.out.println("you dont have a weapon to kill him, you would have no chance");
                 }
@@ -132,7 +132,7 @@ public class Game {
         }
     }
 
-    private void goRoom(Command command) {
+    public void goRoom(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("Go where?");
         } else {
@@ -142,8 +142,15 @@ public class Game {
             if (nextRoom == null)
                 System.out.println("There is no door!");
             else {
-                currentRoom = nextRoom;
-                System.out.println(currentRoom.longDescription());
+                if (currentRoom.shortDescription().equals("kitchen") && !inventory.getItemList().containsKey("key")) {
+                    System.out.println("the dore is closed, you need a key to pass");
+                } else {
+                    currentRoom = nextRoom;
+                    System.out.println(currentRoom.longDescription());
+                    if (currentRoom.shortDescription().equals("outside")) {
+                        System.exit(0);
+                    }
+                }
             }
         }
     }
@@ -154,8 +161,10 @@ public class Game {
             String back = lastRoom(currentDirection);
             Room lastRoom = currentRoom.nextRoom(back);
 
-            currentRoom = lastRoom;
-            System.out.println(currentRoom.longDescription());
+            if (lastRoom != null) {
+                currentRoom = lastRoom;
+                System.out.println(currentRoom.longDescription());
+            }
         } else {
             System.out.println("you can't go back");
         }
@@ -193,7 +202,7 @@ public class Game {
         }
     }
 
-    private void showItems(Command command) {
+    public void showItems(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("show what?");
         } else {
@@ -208,23 +217,23 @@ public class Game {
         }
     }
 
-    private void takeItem(Command command) {
+    public void takeItem(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("take what?");
         } else {
             String secondCommad = command.getSecondWord();
             HashMap<String, Item> currentItems = currentRoom.getItems();
 
-            if(currentItems.containsKey(secondCommad)) {
-                for (Item item : currentItems.values()) {
-                    if (inventory.getTotalItemWeight() > 100 && item.getWeight() > 100) {
-                        System.out.println("you are to heavy, you cant take anything more with you");
-                        System.out.println("type drop and the item name, to lose weight");
-                    } else if (secondCommad.equals(item.getName())) {
-                        inventory.setItem(item);
-                        currentRoom.removeItem(item.getName());
-                        inventory.showItems();
-                    }
+            if (currentItems.containsKey(secondCommad)) {
+                Item currentItem = currentItems.get(secondCommad);
+
+                if (inventory.getTotalItemWeight() > 100 && currentItem.getWeight() < 100) {
+                    System.out.println("you are to heavy, you cant take anything more with you");
+                    System.out.println("type drop and the item name, to lose weight");
+                } else if (secondCommad.equals(currentItem.getName())) {
+                    inventory.setItem(currentItem);
+                    currentRoom.removeItem(currentItem.getName());
+                    inventory.showItems();
                 }
             } else {
                 System.out.println("there is no such item in this room");
@@ -232,7 +241,11 @@ public class Game {
         }
     }
 
-    private void dropItem(Command command) {
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void dropItem(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("drop what?");
         } else {
@@ -240,19 +253,25 @@ public class Game {
             HashMap<String, Item> currentItems = inventory.getItemList();
 
             if (currentItems.containsKey(secondCommad)) {
-                for (Map.Entry<String, Item> entry : currentItems.entrySet()) {
-                    String name = entry.getKey();
-                    Item item = entry.getValue();
-
-                    if (secondCommad.equals(name)) {
-                        inventory.drop(name);
-                        currentRoom.setItem(item);
-                        inventory.showItems();
-                    }
+                Item currentItem = currentItems.get(secondCommad);
+                if (secondCommad.equals(currentItem.getName())) {
+                    inventory.drop(currentItem.getName());
+                    currentRoom.setItem(currentItem);
+                    inventory.showItems();
                 }
             } else {
                 System.out.println("you dont have that item in your inventory");
             }
         }
+
+
+    }
+
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
+
+    public void setCurrentRoom(Room currentRoom) {
+        this.currentRoom = currentRoom;
     }
 }
